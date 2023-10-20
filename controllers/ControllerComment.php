@@ -18,6 +18,11 @@ class ControllerComment {
             header('Location: index.php');
         }
     }
+    public function deleteComment($commentID) {
+        $this->comment->deleteComment($commentID);
+        header('Location: index.php');  
+    }
+    
 
    
 

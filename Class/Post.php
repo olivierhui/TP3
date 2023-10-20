@@ -28,6 +28,11 @@ class Post {
         $stmt = $this->pdo->prepare("DELETE FROM Posts WHERE postID = ?");
         $stmt->execute([$postID]);
     }
+    public function getPost($postID) {
+        $stmt = $this->pdo->prepare("SELECT * FROM Posts WHERE postID = ?");
+        $stmt->execute([$postID]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
     
 
     

@@ -29,5 +29,11 @@ class Category {
         $stmt = $this->pdo->prepare("DELETE FROM Categories WHERE categoryID = ?");
         $stmt->execute([$categoryID]);
     }
+
+    public function getAllCategories() {
+        $stmt = $this->pdo->query("SELECT * FROM categories");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
 }
 ?>

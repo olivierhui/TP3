@@ -1,138 +1,276 @@
--- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1    Database: blog
--- ------------------------------------------------------
--- Server version	8.0.33
+-- 主机： 127.0.0.1
+-- 生成日期： 2023-10-20 05:42:52
+-- 服务器版本： 10.4.28-MariaDB
+-- PHP 版本： 8.2.4
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Table structure for table `categories`
+-- 数据库： `blog`
 --
 
-DROP TABLE IF EXISTS `categories`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `categories`
+--
+
 CREATE TABLE `categories` (
-  `categoryID` int NOT NULL AUTO_INCREMENT,
-  `categoryName` varchar(255) NOT NULL,
-  PRIMARY KEY (`categoryID`)
+  `categoryID` int(11) NOT NULL,
+  `categoryName` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `categories`
+-- 表的结构 `comments`
 --
 
-LOCK TABLES `categories` WRITE;
-/*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `comments`
---
-
-DROP TABLE IF EXISTS `comments`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `comments` (
-  `commentID` int NOT NULL AUTO_INCREMENT,
+  `commentID` int(11) NOT NULL,
   `commentContent` text NOT NULL,
   `commentDate` date NOT NULL,
-  `postID` int DEFAULT NULL,
-  `userID` int DEFAULT NULL,
-  PRIMARY KEY (`commentID`),
-  KEY `userID` (`userID`),
-  KEY `comments_ibfk_1` (`postID`),
-  CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`postID`) REFERENCES `posts` (`postID`) ON DELETE CASCADE,
-  CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `postID` int(11) DEFAULT NULL,
+  `userID` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `comments`
+-- 转存表中的数据 `comments`
 --
 
-LOCK TABLES `comments` WRITE;
-/*!40000 ALTER TABLE `comments` DISABLE KEYS */;
-/*!40000 ALTER TABLE `comments` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `comments` (`commentID`, `commentContent`, `commentDate`, `postID`, `userID`) VALUES
+(11, '2222', '2023-10-19', 29, NULL),
+(12, '233', '2023-10-19', 29, NULL);
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `posts`
+-- 表的结构 `logs`
 --
 
-DROP TABLE IF EXISTS `posts`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `logs` (
+  `logID` int(11) NOT NULL,
+  `userID` int(11) DEFAULT NULL,
+  `ip` varchar(50) DEFAULT NULL,
+  `date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `visitedPage` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `posts`
+--
+
 CREATE TABLE `posts` (
-  `postID` int NOT NULL AUTO_INCREMENT,
+  `postID` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `content` text NOT NULL,
   `postDate` date NOT NULL,
-  `userID` int DEFAULT NULL,
-  `categoryID` int DEFAULT NULL,
-  PRIMARY KEY (`postID`),
-  KEY `userID` (`userID`),
-  KEY `categoryID` (`categoryID`),
-  CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`),
-  CONSTRAINT `posts_ibfk_2` FOREIGN KEY (`categoryID`) REFERENCES `categories` (`categoryID`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `userID` int(11) DEFAULT NULL,
+  `categoryID` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `posts`
+-- 转存表中的数据 `posts`
 --
 
-LOCK TABLES `posts` WRITE;
-/*!40000 ALTER TABLE `posts` DISABLE KEYS */;
-/*!40000 ALTER TABLE `posts` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `posts` (`postID`, `title`, `content`, `postDate`, `userID`, `categoryID`) VALUES
+(29, 'second', 'come with me', '2023-10-19', NULL, NULL);
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- 表的结构 `roles`
 --
 
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `roles` (
+  `roleID` int(11) NOT NULL,
+  `roleName` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- 转存表中的数据 `roles`
+--
+
+INSERT INTO `roles` (`roleID`, `roleName`) VALUES
+(1, 'Admin'),
+(2, 'Client'),
+(3, 'Admin'),
+(4, 'Client'),
+(5, 'Admin'),
+(6, 'Client'),
+(7, 'Admin'),
+(8, 'Client'),
+(9, 'Admin'),
+(10, 'Client'),
+(11, 'Admin'),
+(12, 'Client'),
+(13, 'Admin'),
+(14, 'Client'),
+(15, 'Admin'),
+(16, 'Client'),
+(17, 'Admin'),
+(18, 'Client'),
+(19, 'Admin'),
+(20, 'Client'),
+(21, 'Admin'),
+(22, 'Client'),
+(23, 'Admin'),
+(24, 'Client');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `users`
+--
+
 CREATE TABLE `users` (
-  `userID` int NOT NULL AUTO_INCREMENT,
+  `userID` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  PRIMARY KEY (`userID`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+  `roleID` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `users`
+-- 转存表中的数据 `users`
 --
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'ggggggg','$2y$10$u9rWyBJZrase3iUWtJbrSudpFae5Egc4gAhI9sDqVVkYYLir3FgO2','425067124@qq.com');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+INSERT INTO `users` (`userID`, `username`, `password`, `email`, `roleID`) VALUES
+(4, '520520', '$2y$10$vLZN6skxDcUpTeoDtRAf.eJTqw2X5hWIQIJHcRPjX7Cwxnm3XGKLO', 'localguides@lodgeredhook.com', NULL),
+(5, '1', '$2y$10$UXuxOnfrIg3wprC8CxCpou2ZDELMsaycvSSGlji5f3eViCLj7mKWi', '1@gmail.com', NULL);
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+--
+-- 转储表的索引
+--
+
+--
+-- 表的索引 `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`categoryID`);
+
+--
+-- 表的索引 `comments`
+--
+ALTER TABLE `comments`
+  ADD PRIMARY KEY (`commentID`),
+  ADD KEY `userID` (`userID`),
+  ADD KEY `comments_ibfk_1` (`postID`);
+
+--
+-- 表的索引 `logs`
+--
+ALTER TABLE `logs`
+  ADD PRIMARY KEY (`logID`),
+  ADD KEY `userID` (`userID`);
+
+--
+-- 表的索引 `posts`
+--
+ALTER TABLE `posts`
+  ADD PRIMARY KEY (`postID`),
+  ADD KEY `userID` (`userID`),
+  ADD KEY `categoryID` (`categoryID`);
+
+--
+-- 表的索引 `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`roleID`);
+
+--
+-- 表的索引 `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`userID`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `roleID` (`roleID`);
+
+--
+-- 在导出的表使用AUTO_INCREMENT
+--
+
+--
+-- 使用表AUTO_INCREMENT `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `categoryID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- 使用表AUTO_INCREMENT `comments`
+--
+ALTER TABLE `comments`
+  MODIFY `commentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- 使用表AUTO_INCREMENT `logs`
+--
+ALTER TABLE `logs`
+  MODIFY `logID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- 使用表AUTO_INCREMENT `posts`
+--
+ALTER TABLE `posts`
+  MODIFY `postID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- 使用表AUTO_INCREMENT `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `roleID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- 使用表AUTO_INCREMENT `users`
+--
+ALTER TABLE `users`
+  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- 限制导出的表
+--
+
+--
+-- 限制表 `comments`
+--
+ALTER TABLE `comments`
+  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`postID`) REFERENCES `posts` (`postID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`);
+
+--
+-- 限制表 `logs`
+--
+ALTER TABLE `logs`
+  ADD CONSTRAINT `logs_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`);
+
+--
+-- 限制表 `posts`
+--
+ALTER TABLE `posts`
+  ADD CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`userID`) REFERENCES `users` (`userID`),
+  ADD CONSTRAINT `posts_ibfk_2` FOREIGN KEY (`categoryID`) REFERENCES `categories` (`categoryID`);
+
+--
+-- 限制表 `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`roleID`) REFERENCES `roles` (`roleID`);
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2023-09-07 11:15:51

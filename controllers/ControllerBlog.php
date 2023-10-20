@@ -40,10 +40,15 @@ class ControllerBlog {
         $this->post->deletePost($postID);
         header('Location: index.php');  
     }
+    public function editPost($postID) {
+        $post = $this->post->getPost($postID);
+        include 'views/edit-post.php';
+    }    
     public function updatePost($postID, $title, $content, $userID, $categoryID) {
         $this->post->updatePost($postID, $title, $content, $userID, $categoryID);
         header('Location: index.php');
     }
+    
     
     
     
